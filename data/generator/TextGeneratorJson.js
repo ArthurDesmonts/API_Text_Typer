@@ -9,27 +9,28 @@
  * The following code is used to generate the JSON file containing many text composed by random words, depending on the language chosen.
  * */
 
-const faker = require('faker');
-const fs = require('fs');
+import { faker } from '@faker-js/faker';
+import fs from 'fs';
 
-const languages = ['en', 'fr'];
-
-const textDataBase = {
-    en: [],
-    fr: []
+const generateTextData = (numEntries) => {
+    const data = [];
+    for (let i = 0; i < numEntries; i++) {
+        const words = Array.from({ length: 300 }, () => faker.word.noun()).join(' ');
+        data.push({
+            id: i + 1,
+            text: words
+        });
+    }
+    return data;
 };
 
-const numberOfTexts = 1000;
-const maxWordsInText = 300;
+const saveTextDataToFile = (filename, data) => {
+    fs.writeFileSync(filename, JSON.stringify(data, null, 2));
+};
 
-function generateTexts(language) {
-    for (let i = 0; i < numberOfTexts; i++) {
-        const numberOfWords = Math.floor(Math.random() * maxWordsInText) + 1;
-        const text = faker.lorem.words(numberOfWords);
-        textDataBase[language].push(text);
-    }
-}
+const numEntries = 1000;
+const filename = 'TextDataBase.json';
+const textData = generateTextData(numEntries);
+saveTextDataToFile(filename, textData);
 
-languages.forEach(language => generateTexts(language));
-
-fs.writeFileSync('TextDataBase.json', JSON.stringify(textDataBase, null, 2));
+console.log(`File ${filename} generated successfully.`);
