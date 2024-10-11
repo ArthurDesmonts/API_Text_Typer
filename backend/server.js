@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import getRoutes from "./routes/get.routes.js";
-const port = 5500;
 
 const app = express();
 
@@ -15,3 +14,4 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+export default app;
