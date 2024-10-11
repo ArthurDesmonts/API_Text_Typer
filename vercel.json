@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "apitextgame",
+  "name": "api_rest_text_game",
   "builds": [
     { "src": "server.js", "use": "@vercel/node" }
   ],
