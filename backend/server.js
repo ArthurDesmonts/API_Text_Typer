@@ -15,6 +15,7 @@ app.use(cors());
 
 //route for get request
 app.use('/get', getRoutes);
+app.use('/post', getRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
