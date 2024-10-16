@@ -27,11 +27,27 @@ export const login = (req, res, next) => {
                         return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
                     }
                     res.status(200).json({
-                        userId: user._id,
-                        token: 'TOKEN'
+                        userId: user._id
                     });
                 })
                 .catch(error => res.status(500).json({ error }));
+        })
+        .catch(error => res.status(500).json({ error }));
+};
+
+export const getUserInfo = (req, res, next) => {
+    const userId = req.query.userId;
+    User.findOne({_id: userId})
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+            res.status(200).json({
+                name: user.name,
+                classement: user.classement,
+                recordWPM: user.recordWPM,
+                moyenneWPM: user.moyenneWPM
+            });
         })
         .catch(error => res.status(500).json({ error }));
 };
