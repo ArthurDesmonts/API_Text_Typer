@@ -6,10 +6,13 @@ export const signup = (req, res, next) => {
         .then(hash => {
             const user = new User({
                 name: req.body.name,
-                password: hash
+                password: hash,
+                classement: 0,
+                recordWPM: 0,
+                moyenneWPM: 0
             });
             user.save()
-                .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+                .then(() => res.status(201).json({ userId: user._id }))
                 .catch(error => res.status(400).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
