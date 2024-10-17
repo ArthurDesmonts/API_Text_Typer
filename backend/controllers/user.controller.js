@@ -47,6 +47,7 @@ export const getUserInfo = (req, res, next) => {
             }
             res.status(200).json({
                 name: user.name,
+                creationDate: user.creationDate,
                 classement: user.classement,
                 recordWPM: user.recordWPM,
                 moyenneWPM: user.moyenneWPM
