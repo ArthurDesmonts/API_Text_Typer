@@ -18,6 +18,7 @@ export const getClassmentHandler = async (req, res) => {
         for (let i = 0; i < classement.length; i++) {
             const userName = await getUserName(classement[i].userId);
             classement[i] = {
+                userId: classement[i].userId,
                 user: userName,
                 wpm: classement[i].wpm,
                 date: classement[i].date
