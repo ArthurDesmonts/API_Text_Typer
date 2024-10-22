@@ -25,6 +25,11 @@ export const getClassmentHandler = async (req, res) => {
             };
         }
         classement.value = removeDuplicates(classement);
+        //Update the user datas if necessary
+        for (let i = 0; i < classement.length; i++) {
+            await User.updateOne({ _id: classement[i].userId }, { classement: i + 1 });
+        }
+
         res.json({ classement });
     } catch (error) {
         res.status(500).json({ error: error.message });
