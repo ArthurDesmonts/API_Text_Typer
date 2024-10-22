@@ -1,5 +1,6 @@
 import User from "../models/user.model.cjs";
 import {hash, compare} from "bcrypt";
+import GameResults from "../models/gameResults.model.cjs";
 
 export const signup = (req, res, next) => {
     hash(req.body.password, 10)
@@ -52,6 +53,25 @@ export const getUserInfo = (req, res, next) => {
                 recordWPM: user.recordWPM,
                 moyenneWPM: user.moyenneWPM
             });
+        })
+        .catch(error => res.status(500).json({ error }));
+};
+
+export const refreshUserData = (req, res, next) => {
+    const userId = req.query.userId;
+    const user = {
+        recordWPM: 0,
+        moyenneWPM: 0
+    };
+
+    GameResults.find({userId: userId})
+        .then(results => {
+            if (results.length === 0) {
+                return res.status(200).json(user);
+            }
+            user.recordWPM = results.reduce((max, result) => result.wpm > max ? result.wpm : max, 0);
+            user.moyenneWPM = results.reduce((sum, result) => sum + result.wpm, 0) / results.length;
+            res.status(200).json(user);
         })
         .catch(error => res.status(500).json({ error }));
 };
