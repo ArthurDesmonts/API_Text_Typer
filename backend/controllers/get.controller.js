@@ -44,3 +44,12 @@ export const getUserName = async (userId) => {
         throw new Error('Error fetching user name');
     }
 };
+
+export const getResults = async (req, res) => {
+    try {
+        const results = await GameResults.find({ userId: req.query.userId });
+        res.json({ results });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
